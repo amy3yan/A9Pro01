@@ -32,7 +32,7 @@
   <!-- Spring MVC配置 -->
     <context:annotation-config />
     <!--扫描注解 -->
-    <context:component-scan base-package="com.hand" />
+    <context:component-scan base-package="com.bzlink" />
     <!--默认的mvc注解映射的支持 -->
     <mvc:annotation-driven/>
     <!-- 支持异步方法执行 -->
@@ -70,13 +70,6 @@
              null，testOnBorrow、testOnReturn、testWhileIdle都不起其作用。 -->            
         <property name="validationQuery" value="${dbcp2.validationQuery}"/>
     </bean>
-    <bean id="BasicDataSource2" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">  
-        <!-- 数据库基本信息配置 -->        
-        <property name="url" value="${SQLServer.url}"/>      
-        <property name="driverClassName" value="${SQLServer.driver}"/>
-        <property name="username" value="${SQLServer.username}"/>        
-        <property name="password" value="${SQLServer.password}"/>  
-    </bean>
     <!-- 附件上传 -->
     <bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
@@ -98,42 +91,10 @@
     </bean>  
     <tx:annotation-driven transaction-manager="transactionManager" />  
     <!-- 自动加载USER信息到 内存 -->
-    <bean id="sqlCache" class="com.hand.common.SqlCache" init-method="init" />
+    <bean id="sqlConf" class="com.bzlink.config.SqlConf" init-method="init" />
 	<!-- 国际化-->
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">     
 	   <property name="basename" value="messages" />                 
 	</bean>
-	<bean id="springContextUtil " class="com.hand.utils.SpringContextUtil " scope="singleton" />
-	<!-- Quartz 定时任务 -->
-	<bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-		<property name="triggers">
-			<list>
-				<ref bean="HDLTrigger" />  <!-- HDL库同步任务 -->
-			    <ref bean="OrCADTrigger" /> <!--  --> <!-- HDL库同步任务 -->
-			</list>
-		</property>
-		<property name="autoStartup" value="true" />
-	</bean>
-<!-- HDL任务 -->
-	<bean id="HDLTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-	   <property name="jobDetail" ref="HDLJobDetail" />
-	   <property name="cronExpression" value="0 0/15 * * * ?" /> <!-- [秒] [分] [时] [日] [月] [周] 每隔 1 小时在5分时触发一次 -->
-    </bean>
-	<bean id="HDLJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-		<property name="targetObject" ref="elibJob" />
-		<property name="targetMethod" value="synchronizeHDL" />
-		<property name="concurrent" value="false" /> <!-- 是否允许任务并发执行。当值为 false 时，表示 必须等到前一个线程处理完毕后才再启一个新的线程 -->
-	</bean>
-<!-- Orcad任务 -->	
-	<bean id="OrCADTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-       <property name="jobDetail" ref="OrCADJobDetail" />
-       <property name="cronExpression" value="0 0/45 * * * ?" /> <!-- [秒] [分] [时] [日] [月] [周] 每隔 45 分钟触发一次 -->
-    </bean>
-    <bean id="OrCADJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-        <property name="targetObject" ref="elibJob" />
-        <property name="targetMethod" value="synchronizeOrCAD" />
-        <property name="concurrent" value="false" /> <!-- 是否允许任务并发执行。当值为 false 时，表示 必须等到前一个线程处理完毕后才再启一个新的线程 -->
-    </bean>
-	<!-- 库同步任务实现Bean -->
-	<bean id="elibJob" class="com.hand.elib.jobs.ElibJob"></bean>
+	<bean id="springContextUtil" class="com.bzlink.SpringContextUtil" scope="singleton" />
 </beans>
