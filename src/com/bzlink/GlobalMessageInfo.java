@@ -8,6 +8,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.context.MessageSource;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
+import com.xps.utils.StringUtils;
   
 public class GlobalMessageInfo
 { 
@@ -33,7 +35,7 @@ public class GlobalMessageInfo
         Locale locale = Locale.CHINESE;
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         HttpSession session = request.getSession();
-        String language = HandStringUtils.getStr(session.getAttribute("language"));
+        String language = StringUtils.getStr(session.getAttribute("language"));
         if(language.equals("English"))
         {
             locale = Locale.ENGLISH;

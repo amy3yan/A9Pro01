@@ -11,7 +11,7 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
  * <p>
  */
-package com.bizlink.px;
+package com.bzlink.px;
 
 import org.apache.log4j.Logger;
 
@@ -63,7 +63,7 @@ public class P002AssignSiteSourcer extends BaseObjectPXAction {
 				IItem item = (IItem) aiit.next();
 				assignSiteSourcer(item, reviewer, c_site);
 			}
-			result = new ActionResult(ActionResult.STRING, " Assign " + reviewer + " as the sourcer of 1200");
+			result = new ActionResult(ActionResult.STRING, " Assign " + reviewer + " as the sourcer for 1200");
 		}catch (Exception e) {
 			result = new ActionResult(ActionResult.EXCEPTION, e);
 			log.error(e);

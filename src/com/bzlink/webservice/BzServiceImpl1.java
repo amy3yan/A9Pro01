@@ -69,16 +69,6 @@ import com.agile.api.ManufacturerConstants;
 import com.agile.api.ManufacturerPartConstants;
 import com.agile.api.UserConstants;
 import com.agile.api.WorkflowConstants;
-import com.hand.common.SysConf;
-import com.hand.px.CellUtils;
-import com.hand.px.DBConnectionAgile;
-import com.hand.px.PURConfig;
-import com.hand.px.SystemConfig;
-import com.hand.utils.AgileUtils;
-import com.hand.utils.FTPUtil;
-import com.hand.utils.HandStringUtils;
-import com.hand.utils.SpringContextUtil;
-import com.hand.utils.StringUtil;
 
 @MTOM
 @WebService(endpointInterface = "com.hand.webservice.HandService")
