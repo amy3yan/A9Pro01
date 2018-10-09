@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -45,9 +46,17 @@ import com.xps.utils.MailUtils;
 public class A001SiteItemsExporter implements Runnable {
 	
 	private static Logger log = Logger.getLogger(A001SiteItemsExporter.class);
+	private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	private IAgileSession session;
 	private List<Map<String, Object>> datas;
-//	private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	private Date dataDate;
+	
+	public A001SiteItemsExporter() {
+		// TODO Auto-generated constructor stub
+		Calendar now = Calendar.getInstance();
+		now.add(Calendar.DAY_OF_MONTH, -1);
+		this.dataDate = now.getTime();
+	}
 	
 	/* (non-Javadoc)
 	 * @see java.lang.Runnable#run()
@@ -57,7 +66,7 @@ public class A001SiteItemsExporter implements Runnable {
 		ByteArrayOutputStream oStream = null;
 		try {
 			login();
-			this.datas = BzHelper.getItemsWithoutSiteSourcer(session);
+			this.datas = BzHelper.getItemsWithoutSiteSourcer(session, dataDate);
 			
 			oStream = new ByteArrayOutputStream();
 			generateExcel(oStream);
@@ -111,7 +120,7 @@ public class A001SiteItemsExporter implements Runnable {
 	
 	private void mail(InputStream iStream) throws Exception{
 		log.debug("发送邮件." + AConstant.getMailConfig());
-		String subject = "1120/1100工厂无Sourcer物料清单 " + new SimpleDateFormat("yyyyMMdd").format(new Date());
+		String subject = "1120/1100工厂无Sourcer物料清单 " + new SimpleDateFormat("yyyyMMdd").format(dataDate);
 		String content = "详情见附件";
 		// 附件
 		Map<String, Object> attachments = new HashMap<>();

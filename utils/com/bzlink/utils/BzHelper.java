@@ -13,6 +13,7 @@
  */
 package com.bzlink.utils;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -33,9 +34,9 @@ public class BzHelper {
 	
 	private static Logger log = Logger.getLogger(BzHelper.class);
 	
-	public static List<Map<String, Object>> getItemsWithoutSiteSourcer(IAgileSession session) throws Exception{
+	public static List<Map<String, Object>> getItemsWithoutSiteSourcer(IAgileSession session, Date date) throws Exception{
 		IQuery query = (IQuery) session.getObject(IQuery.OBJECT_TYPE, AConstant.QUERY_PATH);
-		return AgileUtils.queryResults(query, new Object[] {});
+		return AgileUtils.queryResults(query, new Object[] {date});
 	}
 
 }
